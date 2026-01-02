@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bevestiging</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
+        .container { max-width: 500px; margin: 2rem auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 2rem; text-align: center; }
+        h2 { color: #2c3e50; }
+        .bevestiging { color: #27ae60; font-size: 1.2rem; margin-top: 1.5rem; }
+        .btn { background: #3498db; color: #fff; border: none; border-radius: 5px; padding: 0.7rem 1.5rem; margin: 1rem; font-size: 1rem; cursor: pointer; transition: background 0.2s; }
+        .btn:hover { background: #2980b9; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Reservatie bevestigd</h2>
+    <div class="bevestiging" th:text="${bevestiging}"></div>
+    <a th:href="@{/catalogus}" class="btn">Terug naar catalogus</a>
+</div>
+</body>
+</html>

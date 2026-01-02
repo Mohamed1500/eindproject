@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Registreren</title>
+</head>
+<body>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			background: #f4f4f4;
+			margin: 0;
+			padding: 0;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			min-height: 100vh;
+		}
+		.container {
+			background: #fff;
+			padding: 2rem 3rem;
+			margin-top: 5rem;
+			border-radius: 10px;
+			box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+			text-align: center;
+		}
+		h2 {
+			color: #2c3e50;
+			margin-bottom: 1.5rem;
+		}
+		.form-group {
+			margin-bottom: 1rem;
+			text-align: left;
+		}
+		label {
+			display: block;
+			margin-bottom: 0.3rem;
+			color: #34495e;
+		}
+		input[type="text"], input[type="password"] {
+			width: 100%;
+			padding: 0.5rem;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			margin-bottom: 0.5rem;
+		}
+		.btn {
+			background: #27ae60;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			padding: 0.7rem 1.5rem;
+			font-size: 1rem;
+			cursor: pointer;
+			transition: background 0.2s;
+		}
+		.btn:hover {
+			background: #219150;
+		}
+		.error {
+			color: #e74c3c;
+			margin-top: 1rem;
+		}
+	</style>
+	<div class="container">
+		<h2>Registreren</h2>
+		<form th:action="@{/register}" method="post">
+			<div class="form-group">
+				<label for="username">Gebruikersnaam:</label>
+				<input type="text" id="username" name="username" required>
+			</div>
+            <div class="form-group">
+                <label for="email">E-mailadres:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+			<div class="form-group">
+				<label for="password">Wachtwoord:</label>
+				<input type="password" id="password" name="password" required>
+			</div>
+			<button type="submit" class="btn">Registreren</button>
+		</form>
+		<div th:if="${error}" th:text="${error}" class="error"></div>
+	</div>
+</body>
+</html>
+</body>
+</html>
