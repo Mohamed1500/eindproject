@@ -9,6 +9,37 @@
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         th, td { padding: 0.7rem; border-bottom: 1px solid #eee; text-align: left; }
         th { background: #f9f9f9; }
+        .btn {
+            background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.7rem 1.3rem;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s, box-shadow 0.2s;
+            box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+            margin-right: 0.5rem;
+        }
+        .btn:hover {
+            background: linear-gradient(90deg, #2980b9 60%, #3498db 100%);
+            box-shadow: 0 4px 16px rgba(52,152,219,0.13);
+        }
+        .btn-remove {
+            background: #e74c3c;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 0.98rem;
+            cursor: pointer;
+            margin-left: 0.2rem;
+            transition: background 0.2s;
+        }
+        .btn-remove:hover {
+            background: #c0392b;
+        }
     </style>
 </head>
 <body>
@@ -19,20 +50,27 @@
             <tr>
                 <th>Product</th>
                 <th>Aantal</th>
+                <th>Actie</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="item : ${winkelmand}">
                 <td th:text="${item.naam}"></td>
                 <td th:text="${item.aantal}"></td>
+                <td>
+                    <form th:action="@{/winkelmand/verwijderen}" method="post" style="display:inline;">
+                        <input type="hidden" name="productId" th:value="${item.productId}" />
+                        <button type="submit" class="btn-remove">Verwijderen</button>
+                    </form>
+                </td>
             </tr>
         </tbody>
     </table>
-    <div th:if="${winkelmand.size()} == 0">Je winkelmandje is leeg.</div>
+    <div th:if="${winkelmand.size()} == 0" style="margin-bottom:1.5rem;">Je winkelmandje is leeg.</div>
     <form th:action="@{/checkout}" method="get" th:if="${winkelmand.size()} > 0" style="margin-top:1rem;">
         <button type="submit" class="btn">Checkout</button>
     </form>
-    <a th:href="@{/catalogus}" class="btn">Terug naar catalogus</a>
+    <a th:href="@{/catalogus}" class="btn" style="margin-top:0.5rem; display:inline-block;">Terug naar catalogus</a>
 </div>
 </body>
 </html>

@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +24,14 @@ public class CheckoutController {
     }
 
     @PostMapping("/checkout/bevestigen")
-    public String bevestigCheckout(HttpSession session, Model model) {
+    public String bevestigCheckout(
+            @RequestParam("afhaaldatum") String afhaaldatum,
+            @RequestParam(value = "opmerkingen", required = false) String opmerkingen,
+            HttpSession session, Model model) {
         session.removeAttribute("winkelmand");
         model.addAttribute("bevestiging", "Je reservatie is succesvol ontvangen!");
+        model.addAttribute("afhaaldatum", afhaaldatum);
+        model.addAttribute("opmerkingen", opmerkingen);
         return "bevestiging";
     }
 }

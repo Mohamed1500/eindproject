@@ -28,15 +28,26 @@ public class WinkelmandController {
         boolean gevonden = false;
         for (WinkelmandItem item : winkelmand) {
             if (item.getProductId().equals(productId)) {
-                item.setAantal(item.getAantal() + 1);
+                // Controleer voorraad
+                Product p = productRepository.findById(productId);
+                if (p != null && p.getVoorraad() > 0) {
+                    item.setAantal(item.getAantal() + 1);
+                    // Verlaag voorraad
+                    if (productRepository instanceof be.ehb.eindproject.repository.InMemoryProductRepository repo) {
+                        repo.verlaagVoorraad(productId, 1);
+                    }
+                }
                 gevonden = true;
                 break;
             }
         }
         if (!gevonden) {
-            Product p = productRepository.findAll().stream().filter(prod -> prod.getId().equals(productId)).findFirst().orElse(null);
-            if (p != null) {
+            Product p = productRepository.findById(productId);
+            if (p != null && p.getVoorraad() > 0) {
                 winkelmand.add(new WinkelmandItem(p.getId(), p.getNaam(), 1));
+                if (productRepository instanceof be.ehb.eindproject.repository.InMemoryProductRepository repo) {
+                    repo.verlaagVoorraad(productId, 1);
+                }
             }
         }
         session.setAttribute("winkelmand", winkelmand);
@@ -51,5 +62,15 @@ public class WinkelmandController {
         }
         model.addAttribute("winkelmand", winkelmand);
         return "winkelmand";
+    }
+    @PostMapping("/winkelmand/verwijderen")
+    public String verwijderUitWinkelmand(@RequestParam Long productId, HttpSession session) {
+        List<WinkelmandItem> winkelmand = (List<WinkelmandItem>) session.getAttribute("winkelmand");
+        if (winkelmand == null) {
+            winkelmand = new ArrayList<>();
+        }
+        winkelmand.removeIf(item -> item.getProductId().equals(productId));
+        session.setAttribute("winkelmand", winkelmand);
+        return "redirect:/winkelmand";
     }
 }

@@ -31,7 +31,15 @@
         </tbody>
     </table>
     <div th:if="${winkelmand.size()} == 0">Je winkelmandje is leeg.</div>
-    <form th:action="@{/checkout/bevestigen}" method="post" th:if="${winkelmand.size()} > 0">
+    <form th:action="@{/checkout/bevestigen}" method="post" th:if="${winkelmand.size()} > 0" style="margin-top:2rem;">
+        <div style="margin-bottom:1.2rem;">
+            <label for="afhaaldatum" style="font-weight:500; color:#2c3e50;">Afhaaldatum:</label><br>
+            <input type="date" id="afhaaldatum" name="afhaaldatum" required style="padding:0.5rem; border-radius:5px; border:1px solid #ccc; margin-top:0.3rem; width: 60%;" />
+        </div>
+        <div style="margin-bottom:1.2rem;">
+            <label for="opmerkingen" style="font-weight:500; color:#2c3e50;">Opmerkingen:</label><br>
+            <textarea id="opmerkingen" name="opmerkingen" rows="3" style="padding:0.5rem; border-radius:5px; border:1px solid #ccc; margin-top:0.3rem; width: 90%; resize:vertical;"></textarea>
+        </div>
         <button type="submit" class="btn">Bevestigen</button>
     </form>
     <a th:href="@{/winkelmand}" class="btn">Terug naar winkelmandje</a>

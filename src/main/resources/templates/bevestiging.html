@@ -15,6 +15,12 @@
 <div class="container">
     <h2>Reservatie bevestigd</h2>
     <div class="bevestiging" th:text="${bevestiging}"></div>
+    <div th:if="${afhaaldatum != null}">
+        <b>Afhaaldatum:</b> <span th:text="${afhaaldatum}"></span>
+    </div>
+    <div th:if="${opmerkingen != null && !#strings.isEmpty(opmerkingen)}" style="margin-top:0.7rem;">
+        <b>Opmerkingen:</b> <span th:text="${opmerkingen}"></span>
+    </div>
     <a th:href="@{/catalogus}" class="btn">Terug naar catalogus</a>
 </div>
 </body>
