@@ -55,6 +55,9 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             .logoutSuccessUrl("/login?logout")
             .permitAll()
         )
+        .exceptionHandling(exception -> exception
+            .accessDeniedPage("/access-denied")
+        )
         .authenticationProvider(authenticationProvider());
 
     return http.build();
