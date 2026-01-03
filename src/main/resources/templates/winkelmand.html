@@ -62,6 +62,10 @@
                         <input type="hidden" name="productId" th:value="${item.productId}" />
                         <button type="submit" class="btn-remove">Verwijderen</button>
                     </form>
+                    <form th:action="@{/winkelmand/verwijderAlles}" method="post" style="display:inline; margin-left:0.3rem;">
+                        <input type="hidden" name="productId" th:value="${item.productId}" />
+                        <button type="submit" class="btn-remove" style="background:#b71c1c;">Verwijder alles</button>
+                    </form>
                 </td>
             </tr>
         </tbody>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class CatalogusController {
@@ -23,7 +24,8 @@ public class CatalogusController {
     public String toonCatalogus(
             @RequestParam(required = false) String zoek,
             @RequestParam(required = false) String categorie,
-            Model model) {
+            Model model,
+            HttpSession session) {
         List<Product> producten;
         if (zoek != null && !zoek.isEmpty() && categorie != null && !categorie.isEmpty()) {
             producten = productRepository.findByNaamAndCategorie(zoek, categorie);
@@ -37,6 +39,11 @@ public class CatalogusController {
         model.addAttribute("producten", producten);
         model.addAttribute("zoek", zoek);
         model.addAttribute("categorie", categorie);
+        // Melding tonen en direct verwijderen uit sessie
+        if (session.getAttribute("melding") != null) {
+            model.addAttribute("melding", session.getAttribute("melding"));
+            session.removeAttribute("melding");
+        }
         return "catalogus";
     }
 }

@@ -1,3 +1,4 @@
+    // ...existing code...
 package be.ehb.eindproject.controller;
 
 import be.ehb.eindproject.model.Product;
@@ -20,7 +21,7 @@ public class WinkelmandController {
     private ProductRepository productRepository;
 
     @PostMapping("/winkelmand/toevoegen")
-    public String voegToeAanWinkelmand(@RequestParam Long productId, HttpSession session) {
+    public String voegToeAanWinkelmand(@RequestParam Long productId, HttpSession session, Model model) {
         List<WinkelmandItem> winkelmand = (List<WinkelmandItem>) session.getAttribute("winkelmand");
         if (winkelmand == null) {
             winkelmand = new ArrayList<>();
@@ -51,6 +52,7 @@ public class WinkelmandController {
             }
         }
         session.setAttribute("winkelmand", winkelmand);
+        session.setAttribute("melding", "Product toegevoegd aan winkelmandje!");
         return "redirect:/catalogus";
     }
 
@@ -69,7 +71,45 @@ public class WinkelmandController {
         if (winkelmand == null) {
             winkelmand = new ArrayList<>();
         }
-        winkelmand.removeIf(item -> item.getProductId().equals(productId));
+        for (WinkelmandItem item : winkelmand) {
+            if (item.getProductId().equals(productId)) {
+                // Verhoog voorraad in repository
+                Product p = productRepository.findById(productId);
+                if (p != null && productRepository instanceof be.ehb.eindproject.repository.InMemoryProductRepository repo) {
+                    repo.verlaagVoorraad(productId, -1); // verhoog voorraad met 1
+                }
+                if (item.getAantal() > 1) {
+                    item.setAantal(item.getAantal() - 1);
+                } else {
+                    winkelmand.remove(item);
+                }
+                break;
+            }
+        }
+        session.setAttribute("winkelmand", winkelmand);
+        return "redirect:/winkelmand";
+    }
+    @PostMapping("/winkelmand/verwijderAlles")
+    public String verwijderAllesUitWinkelmand(@RequestParam Long productId, HttpSession session) {
+        List<WinkelmandItem> winkelmand = (List<WinkelmandItem>) session.getAttribute("winkelmand");
+        if (winkelmand == null) {
+            winkelmand = new ArrayList<>();
+        }
+        WinkelmandItem teVerwijderen = null;
+        for (WinkelmandItem item : winkelmand) {
+            if (item.getProductId().equals(productId)) {
+                // Verhoog voorraad met het aantal dat verwijderd wordt
+                Product p = productRepository.findById(productId);
+                if (p != null && productRepository instanceof be.ehb.eindproject.repository.InMemoryProductRepository repo) {
+                    repo.verlaagVoorraad(productId, -item.getAantal());
+                }
+                teVerwijderen = item;
+                break;
+            }
+        }
+        if (teVerwijderen != null) {
+            winkelmand.remove(teVerwijderen);
+        }
         session.setAttribute("winkelmand", winkelmand);
         return "redirect:/winkelmand";
     }

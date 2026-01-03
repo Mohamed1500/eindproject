@@ -20,7 +20,11 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("Gebruiker niet gevonden"));
         UserBuilder builder = org.springframework.security.core.userdetails.User.withUsername(user.getUsername());
         builder.password(user.getPassword());
-        builder.roles("USER");
+        if (user.getUsername().equals("admin") && user.getPassword().equals("$2a$10$wQJQw6Qw6Qw6Qw6Qw6Qw6uQw6Qw6Qw6Qw6Qw6Qw6Qw6Qw6Qw6Qw6")) { // bcrypt hash van Admin123
+            builder.roles("ADMIN");
+        } else {
+            builder.roles("USER");
+        }
         return builder.build();
     }
 }

@@ -1,60 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+</head>
     <title>Catalogus</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-        .container { max-width: 900px; margin: 2rem auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 2rem; }
-        h2 { color: #2c3e50; text-align: center; }
-        .producten { display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; }
-        .product {
-            background: linear-gradient(120deg, #f6fafd 0%, #e9f3fb 100%);
-            border-radius: 16px;
-            box-shadow: 0 4px 18px rgba(44,62,80,0.10);
-            padding: 1.5rem 1.2rem 1.2rem 1.2rem;
-            width: 270px;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            gap: 0.7rem;
-            margin-bottom: 1.5rem;
-            transition: box-shadow 0.2s, transform 0.2s;
-        }
-        .product:hover {
-            box-shadow: 0 8px 32px rgba(52,152,219,0.18);
-            transform: translateY(-4px) scale(1.025);
-        }
-        .product img { max-width: 100%; height: 120px; object-fit: contain; margin-bottom: 0.5rem; }
-        .product h3 {
-            margin: 0.5rem 0 0.2rem 0;
-            font-size: 1.25rem;
-            color: #2980b9;
-            letter-spacing: 0.2px;
-        }
-        .product .categorie {
-            color: #6c7a89;
-            font-size: 0.98em;
-            margin-bottom: 0.3rem;
-        }
-        .product .voorraad {
-            color: #27ae60;
-            font-size: 0.98em;
-            margin-bottom: 0.3rem;
-        }
-        .product .beschrijving {
-            color: #444;
-            font-size: 1em;
-            margin-bottom: 0.3rem;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/style.css}" href="/style.css" />
 </head>
 <body>
 
-<div class="container">
+    <div class="container">
+        <div th:if="${session.melding}" id="melding">
+            <span th:text="${session.melding}"></span>
+        </div>
+    </body>
+    <script>
+    // Verwijder melding na 2 seconden
+    window.addEventListener('DOMContentLoaded', function() {
+        var melding = document.getElementById('melding');
+        if(melding) {
+            setTimeout(function() {
+                melding.style.display = 'none';
+            }, 2000);
+        }
+    });
+    </script>
     <h2>Catalogus</h2>
     <form method="get" style="text-align:center; margin-bottom:2rem;">
-        <input type="text" name="zoek" placeholder="Zoek op naam..." th:value="${zoek}" style="padding:0.5rem; width:200px;" />
-        <select name="categorie" style="padding:0.5rem;">
+        <input type="text" name="zoek" placeholder="Zoek op naam..." th:value="${zoek}" />
+        <select name="categorie">
             <option value="">Alle categorieën</option>
             <option value="Belichting" th:selected="${categorie} == 'Belichting'">Belichting</option>
             <option value="Podium" th:selected="${categorie} == 'Podium'">Podium</option>
@@ -64,27 +35,46 @@
         </select>
         <button type="submit" class="btn">Zoeken</button>
     </form>
-    <div style="text-align:right; margin-bottom:1rem;">
+    <div style="display:flex; justify-content: flex-end; align-items:center; gap:0.7rem; margin-bottom:1rem;">
         <a th:href="@{/winkelmand}" class="btn">Mijn winkelmandje</a>
+        <form th:action="@{/logout}" method="post" style="display:inline; margin:0;">
+            <button type="submit" class="btn btn-secondary">Uitloggen</button>
+        </form>
     </div>
     <div class="producten">
         <div th:if="${producten.size()} == 0" style="width:100%; text-align:center; color:#e74c3c; font-size:1.1em; margin-top:2rem;">
             Geen producten gevonden voor deze zoekopdracht of filter.
         </div>
         <div class="product" th:each="product : ${producten}">
-            <h3 th:text="${product.naam}" style="margin-bottom:0.2rem;"></h3>
+            <h3 th:text="${product.naam}"></h3>
             <div class="categorie"><b>Categorie:</b> <span th:text="${product.categorie}"></span></div>
             <div class="beschrijving"><b>Beschrijving:</b> <span th:text="${product.beschrijving}"></span></div>
             <div class="voorraad"><b>Beschikbaar:</b> <span th:text="${product.voorraad}"></span></div>
             <div style="display:flex; gap:0.5rem; margin-top:0.7rem;">
                 <form th:action="@{/winkelmand/toevoegen}" method="post" style="display:inline-block; margin:0;">
                     <input type="hidden" name="productId" th:value="${product.id}" />
-                    <button type="submit" class="btn" style="background: linear-gradient(90deg, #27ae60 60%, #6dd5fa 100%); font-weight:500;">In winkelmand</button>
+                    <button type="submit" class="btn">In winkelmand</button>
                 </form>
-                <a th:href="@{'/product/' + ${product.id}}" class="btn" style="background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%); color:#fff; font-weight:500;">Details</a>
+                <a th:href="@{'/product/' + ${product.id}}" class="btn">Details</a>
             </div>
         </div>
     </div>
 </div>
 </body>
+<script>
+// Scrollpositie onthouden vóór submit
+document.querySelectorAll('form[action="/winkelmand/toevoegen"]').forEach(function(form) {
+    form.addEventListener('submit', function() {
+        sessionStorage.setItem('catalogusScroll', window.scrollY);
+    });
+});
+// Scrollpositie herstellen na reload
+window.addEventListener('DOMContentLoaded', function() {
+    var scroll = sessionStorage.getItem('catalogusScroll');
+    if (scroll !== null) {
+        window.scrollTo(0, parseInt(scroll));
+        sessionStorage.removeItem('catalogusScroll');
+    }
+});
+</script>
 </html>

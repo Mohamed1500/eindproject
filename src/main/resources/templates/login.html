@@ -60,41 +60,24 @@
 			margin-top: 1rem;
 		}
 	</style>
-<head>
-	<div class="container">
-		<h2>Login</h2>
-		<form th:action="@{/login}" method="post">
-			<div class="form-group">
-				<label for="username">Gebruikersnaam:</label>
-				<input type="text" id="username" name="username" required>
-			</div>
-			<div class="form-group">
-				<label for="password">Wachtwoord:</label>
-				<input type="password" id="password" name="password" required>
-			</div>
-			<button type="submit" class="btn">Login</button>
-	</form>
-	<div th:if="${param.error}" class="error">Foutieve gebruikersnaam of wachtwoord.</div>
-	<div th:if="${param.logout}" class="info">Je bent uitgelogd.</div>
-	</div>
-<body>
-</html>
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-	<title>Login</title>
-</head>
-<body>
-	<h2>Login</h2>
-	<form th:action="@{/login}" method="post">
-		<label for="username">Gebruikersnaam:</label>
-		<input type="text" id="username" name="username" required><br>
-		<label for="password">Wachtwoord:</label>
-		<input type="password" id="password" name="password" required><br>
-		<button type="submit">Login</button>
-	</form>
-	<div th:if="${param.error}" style="color:red;">Ongeldige gebruikersnaam of wachtwoord</div>
-	<div th:if="${param.logout}" style="color:green;">Je bent uitgelogd</div>
-	<div th:if="${param.registerSuccess}" style="color:green;">Registratie succesvol! Je kan nu inloggen.</div>
-</body>
-</html>
+	</head>
+	<body>
+		<div class="container">
+			<h2>Login</h2>
+			<form th:action="@{/login}" method="post">
+				<div class="form-group">
+					<label for="username">Gebruikersnaam:</label>
+					<input type="text" id="username" name="username" required>
+				</div>
+				<div class="form-group">
+					<label for="password">Wachtwoord:</label>
+					<input type="password" id="password" name="password" required>
+				</div>
+				<button type="submit" class="btn">Login</button>
+			</form>
+			<div th:if="${param.error}" class="error">Foutieve gebruikersnaam of wachtwoord.</div>
+			<div th:if="${param.logout}" class="info">Je bent uitgelogd.</div>
+			<div th:if="${param.registerSuccess}" class="info">Registratie succesvol! Je kan nu inloggen.</div>
+		</div>
+	</body>
+	</html>
