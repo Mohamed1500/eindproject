@@ -53,5 +53,4 @@ Deze webapplicatie is ontwikkeld als proof of concept voor een kunstopleiding. S
 ## Aanvullende informatie
 - Zie README.md voor referenties en adminaccount.
 - Zie HELP.md voor technische links.
-- Mondelinge toelichting over designkeuzes en werking kan gegeven worden.
 
