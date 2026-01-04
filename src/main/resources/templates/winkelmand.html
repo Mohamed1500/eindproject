@@ -2,45 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Mijn Winkelmandje</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; margin: 0; padding: 0; }
-        .container { max-width: 600px; margin: 2rem auto; background: #fff; border-radius: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); padding: 2rem; }
-        h2 { color: #2c3e50; text-align: center; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th, td { padding: 0.7rem; border-bottom: 1px solid #eee; text-align: left; }
-        th { background: #f9f9f9; }
-        .btn {
-            background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 0.7rem 1.3rem;
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 8px rgba(52,152,219,0.08);
-            margin-right: 0.5rem;
-        }
-        .btn:hover {
-            background: linear-gradient(90deg, #2980b9 60%, #3498db 100%);
-            box-shadow: 0 4px 16px rgba(52,152,219,0.13);
-        }
-        .btn-remove {
-            background: #e74c3c;
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 0.5rem 1rem;
-            font-size: 0.98rem;
-            cursor: pointer;
-            margin-left: 0.2rem;
-            transition: background 0.2s;
-        }
-        .btn-remove:hover {
-            background: #c0392b;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/style.css}" href="/style.css" />
 </head>
 <body>
 <div class="container">

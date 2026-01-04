@@ -1,80 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catalogus</title>
+  <link rel="stylesheet" th:href="@{/style.css}" href="/style.css" />
 </head>
-    <title>Catalogus</title>
-    <link rel="stylesheet" th:href="@{/style.css}" href="/style.css" />
-</head>
-<body>
 
-    <div class="container">
-        <div th:if="${session.melding}" id="melding">
-            <span th:text="${session.melding}"></span>
-        </div>
-    </body>
-    <script>
-    // Verwijder melding na 2 seconden
-    window.addEventListener('DOMContentLoaded', function() {
-        var melding = document.getElementById('melding');
-        if(melding) {
-            setTimeout(function() {
-                melding.style.display = 'none';
-            }, 2000);
-        }
-    });
-    </script>
+<body class="page-catalog">
+  <div class="container">
+    <div th:if="${session.melding}" id="melding">
+      <span th:text="${session.melding}"></span>
+    </div>
+
     <h2>Catalogus</h2>
-    <form method="get" style="text-align:center; margin-bottom:2rem;">
-        <input type="text" name="zoek" placeholder="Zoek op naam..." th:value="${zoek}" />
-        <select name="categorie">
-            <option value="">Alle categorieën</option>
-            <option value="Belichting" th:selected="${categorie} == 'Belichting'">Belichting</option>
-            <option value="Podium" th:selected="${categorie} == 'Podium'">Podium</option>
-            <option value="Kabel" th:selected="${categorie} == 'Kabel'">Kabel</option>
-            <option value="Controlepanelen" th:selected="${categorie} == 'Controlepanelen'">Controlepanelen</option>
-            <option value="Accessoire" th:selected="${categorie} == 'Accessoire'">Accessoire</option>
+
+    <div class="catalog-toolbar">
+      <form method="get" id="filterForm" class="catalog-filters">
+        <input type="text" name="zoek" placeholder="Zoek op naam..." th:value="${zoek}"
+               id="zoekInput" autocomplete="off" />
+
+        <select name="categorie" onchange="document.getElementById('filterForm').submit();">
+          <option value="">Alle categorieën</option>
+          <option value="Belichting" th:selected="${categorie} == 'Belichting'">Belichting</option>
+          <option value="Podium" th:selected="${categorie} == 'Podium'">Podium</option>
+          <option value="Kabel" th:selected="${categorie} == 'Kabel'">Kabel</option>
+          <option value="Controlepanelen" th:selected="${categorie} == 'Controlepanelen'">Controlepanelen</option>
+          <option value="Accessoire" th:selected="${categorie} == 'Accessoire'">Accessoire</option>
         </select>
-        <button type="submit" class="btn">Zoeken</button>
-    </form>
-    <div style="display:flex; justify-content: flex-end; align-items:center; gap:0.7rem; margin-bottom:1rem;">
-        <a th:href="@{/winkelmand}" class="btn">Mijn winkelmandje</a>
-        <form th:action="@{/logout}" method="post" style="display:inline; margin:0;">
-            <button type="submit" class="btn btn-secondary">Uitloggen</button>
-        </form>
+      </form>
+
+      <a th:href="@{/winkelmand}" class="btn">Mijn winkelmandje</a>
+
+      <form th:action="@{/logout}" method="post" class="logout-form">
+        <button type="submit" class="btn">Uitloggen</button>
+      </form>
     </div>
+
     <div class="producten">
-        <div th:if="${producten.size()} == 0" style="width:100%; text-align:center; color:#e74c3c; font-size:1.1em; margin-top:2rem;">
-            Geen producten gevonden voor deze zoekopdracht of filter.
+      <div th:if="${producten.size()} == 0" class="no-results">
+        Geen producten gevonden voor deze zoekopdracht of filter.
+      </div>
+
+      <div class="product-card" th:each="product : ${producten}">
+        <h3 th:text="${product.naam}"></h3>
+
+        <div class="categorie"><b>Categorie:</b> <span th:text="${product.categorie}"></span></div>
+        <div class="beschrijving"><b>Beschrijving:</b> <span th:text="${product.beschrijving}"></span></div>
+        <div class="voorraad"><b>Beschikbaar:</b> <span th:text="${product.voorraad}"></span></div>
+
+        <div class="card-actions">
+          <form th:action="@{/winkelmand/toevoegen}" method="post">
+            <input type="hidden" name="productId" th:value="${product.id}" />
+            <button type="submit" class="btn">In winkelmand</button>
+          </form>
+
+          <a th:href="@{'/product/' + ${product.id}}" class="btn btn-secondary">Details</a>
         </div>
-        <div class="product" th:each="product : ${producten}">
-            <h3 th:text="${product.naam}"></h3>
-            <div class="categorie"><b>Categorie:</b> <span th:text="${product.categorie}"></span></div>
-            <div class="beschrijving"><b>Beschrijving:</b> <span th:text="${product.beschrijving}"></span></div>
-            <div class="voorraad"><b>Beschikbaar:</b> <span th:text="${product.voorraad}"></span></div>
-            <div style="display:flex; gap:0.5rem; margin-top:0.7rem;">
-                <form th:action="@{/winkelmand/toevoegen}" method="post" style="display:inline-block; margin:0;">
-                    <input type="hidden" name="productId" th:value="${product.id}" />
-                    <button type="submit" class="btn">In winkelmand</button>
-                </form>
-                <a th:href="@{'/product/' + ${product.id}}" class="btn">Details</a>
-            </div>
-        </div>
+      </div>
     </div>
-</div>
-</body>
-<script>
-// Scrollpositie onthouden vóór submit
-document.querySelectorAll('form[action="/winkelmand/toevoegen"]').forEach(function(form) {
-    form.addEventListener('submit', function() {
-        sessionStorage.setItem('catalogusScroll', window.scrollY);
+  </div>
+
+  <script>
+  // Scrollpositie onthouden vóór submit
+  document.querySelectorAll('form[action="/winkelmand/toevoegen"]').forEach(function (form) {
+    form.addEventListener('submit', function () {
+      sessionStorage.setItem('catalogusScroll', window.scrollY);
     });
-});
-// Scrollpositie herstellen na reload
-window.addEventListener('DOMContentLoaded', function() {
-    var scroll = sessionStorage.getItem('catalogusScroll');
+  });
+
+  // Scrollpositie herstellen na reload
+  window.addEventListener('DOMContentLoaded', function () {
+    const scroll = sessionStorage.getItem('catalogusScroll');
     if (scroll !== null) {
-        window.scrollTo(0, parseInt(scroll));
-        sessionStorage.removeItem('catalogusScroll');
+      window.scrollTo(0, parseInt(scroll, 10));
+      sessionStorage.removeItem('catalogusScroll');
     }
-});
+  });
+
+  // Debounced automatisch zoeken bij typen in zoekbalk
+  const zoekInput = document.getElementById('zoekInput');
+  let zoekTimeout;
+  if (zoekInput) {
+    zoekInput.addEventListener('input', function () {
+      clearTimeout(zoekTimeout);
+      zoekTimeout = setTimeout(function () {
+        document.getElementById('filterForm').submit();
+      }, 500);
+    });
+  }
 </script>
+</body>
 </html>

@@ -35,7 +35,7 @@ Webapplicatie voor een kunstopleiding waar studenten materiaal kunnen reserveren
 ## Referenties
 - Spring Boot documentation
 - Baeldung tutorials
-- GitHub Copilot (AI-assistent voor code, prompts en styling)
+- GitHub Copilot 
 
 
 

@@ -2,92 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Productdetail</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: linear-gradient(120deg, #e0eafc 0%, #cfdef3 100%);
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 480px;
-            margin: 2.5rem auto;
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 4px 24px rgba(44,62,80,0.10);
-            padding: 2.2rem 2rem 2rem 2rem;
-            position: relative;
-        }
-        h2 {
-            color: #2c3e50;
-            text-align: center;
-            margin-bottom: 1.2rem;
-            font-size: 2rem;
-            letter-spacing: 0.5px;
-        }
-        .product-img {
-            max-width: 100%;
-            height: 200px;
-            object-fit: contain;
-            margin-bottom: 1.2rem;
-            display: block;
-            margin-left: auto;
-            margin-right: auto;
-            border-radius: 10px;
-            background: #f6fafd;
-            box-shadow: 0 2px 8px rgba(52,152,219,0.07);
-        }
-        .product-info {
-            margin-bottom: 1.2rem;
-        }
-        .product-info div {
-            margin-bottom: 0.6rem;
-            font-size: 1.08rem;
-        }
-        .product-info b {
-            color: #2980b9;
-        }
-        .btn {
-            background: linear-gradient(90deg, #3498db 60%, #6dd5fa 100%);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 0.8rem 1.7rem;
-            margin: 0.5rem 0.3rem 0 0;
-            font-size: 1.08rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: background 0.2s, box-shadow 0.2s;
-            box-shadow: 0 2px 8px rgba(52,152,219,0.08);
-        }
-        .btn:hover {
-            background: linear-gradient(90deg, #2980b9 60%, #3498db 100%);
-            box-shadow: 0 4px 16px rgba(52,152,219,0.13);
-        }
-        .btn:last-child {
-            background: #eaeaea;
-            color: #2c3e50;
-            border: 1px solid #d0d7de;
-        }
-        .btn:last-child:hover {
-            background: #f4f4f4;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/style.css}" href="/style.css" />
 </head>
 <body>
-<div class="container">
-    <h2 th:text="${product.naam}"></h2>
-    <!-- Afbeelding verwijderd zoals gevraagd -->
-    <div class="product-info">
-        <div><b>Categorie:</b> <span th:text="${product.categorie}"></span></div>
-        <div><b>Beschrijving:</b> <span th:text="${product.beschrijving}"></span></div>
-        <div><b>Beschikbaar:</b> <span th:text="${product.voorraad}"></span></div>
+<div class="container" style="max-width: 480px; margin: 4rem auto; background: var(--bg-card); border-radius: 18px; box-shadow: 0 10px 30px rgba(0,0,0,0.35); padding: 2.2rem 2rem 2rem 2rem;">
+    <h2 th:text="${product.naam}" style="color: var(--accent); text-align: center; margin-bottom: 1.2rem;"></h2>
+    <div class="product-info" style="margin-bottom: 1.5rem;">
+        <div style="color: var(--text-muted); font-size: 1.05rem; margin-bottom: 0.5rem;"><b>Categorie:</b> <span th:text="${product.categorie}"></span></div>
+        <div style="color: var(--text-main); font-size: 1.08rem; margin-bottom: 0.5rem;"><b>Beschrijving:</b> <span th:text="${product.beschrijving}"></span></div>
+        <div style="color: var(--success); font-size: 1.05rem;"><b>Beschikbaar:</b> <span th:text="${product.voorraad}"></span></div>
     </div>
     <form th:action="@{/winkelmand/toevoegen}" method="post" style="margin-top:1rem; display:inline-block;">
         <input type="hidden" name="productId" th:value="${product.id}" />
         <button type="submit" class="btn">In winkelmand</button>
     </form>
-    <a th:href="@{/catalogus}" class="btn">Terug naar catalogus</a>
+    <a th:href="@{/catalogus}" class="btn" style="margin-left:0.7rem;">Terug naar catalogus</a>
 </div>
 </body>
 </html>

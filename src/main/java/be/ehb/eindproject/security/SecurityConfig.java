@@ -42,7 +42,9 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         .csrf(csrf -> csrf.disable()) // nodig voor H2-console
         .headers(headers -> headers.frameOptions(frame -> frame.disable())) // H2-console frame
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/", "/register", "/login", "/css/**", "/js/**").permitAll()
+            .requestMatchers(
+                "/", "/register", "/login", "/style.css", "/static/**", "/css/**", "/js/**", "/images/**"
+            ).permitAll()
             .requestMatchers("/h2-console/**").hasRole("ADMIN")
             .anyRequest().authenticated()
         )

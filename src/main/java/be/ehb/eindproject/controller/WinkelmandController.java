@@ -33,10 +33,6 @@ public class WinkelmandController {
                 Product p = productRepository.findById(productId);
                 if (p != null && p.getVoorraad() > 0) {
                     item.setAantal(item.getAantal() + 1);
-                    // Verlaag voorraad
-                    if (productRepository instanceof be.ehb.eindproject.repository.InMemoryProductRepository repo) {
-                        repo.verlaagVoorraad(productId, 1);
-                    }
                 }
                 gevonden = true;
                 break;
@@ -46,9 +42,6 @@ public class WinkelmandController {
             Product p = productRepository.findById(productId);
             if (p != null && p.getVoorraad() > 0) {
                 winkelmand.add(new WinkelmandItem(p.getId(), p.getNaam(), 1));
-                if (productRepository instanceof be.ehb.eindproject.repository.InMemoryProductRepository repo) {
-                    repo.verlaagVoorraad(productId, 1);
-                }
             }
         }
         session.setAttribute("winkelmand", winkelmand);

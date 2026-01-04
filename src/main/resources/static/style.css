@@ -1,256 +1,338 @@
-:root {
-    --bg-main: #0f1115;
-    --bg-card: #1a1d24;
-    --bg-soft: #222633;
+/* =========================================================
+   GLOBAL THEME
+   ========================================================= */
 
-    --text-main: #e5e7eb;
-    --text-muted: #9ca3af;
+:root{
+  --bg-main: #0f1115;
+  --bg-card: #1a1d24;
+  --bg-soft: #222633;
 
-    --accent: #7c8cff; /* rustig blauw-paars */
-    --accent-hover: #6366f1;
+  --text-main: #e5e7eb;
+  --text-muted: #9ca3af;
 
-    --success: #22c55e;
-    --danger: #ef4444;
-}
+  --accent: #7c8cff;
+  --accent-hover: #6366f1;
 
-body {
-    font-family: 'Inter', 'Segoe UI', sans-serif;
-    background: var(--bg-main);
-    margin: 0;
-    padding: 0;
-    color: var(--text-main);
+  --success: #22c55e;
+  --danger: #ef4444;
 }
 
-.container {
-    max-width: 1100px;
-    margin: 3rem auto;
-    background: var(--bg-card);
-    border-radius: 14px;
-    padding: 2.5rem;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+*{ box-sizing: border-box; }
+
+html, body{ height: 100%; }
+
+body{
+  min-height: 100vh;
+  background: var(--bg-main);
+  margin: 0;
+  padding: 0;
+  color: var(--text-main);
+  font-family: 'Inter','Segoe UI',Arial,sans-serif;
 }
 
-h1 {
-    font-size: 2.2rem;
-    margin-bottom: 2rem;
-}
-h2 {
-    font-size: 1.5rem;
-    margin-bottom: 1.2rem;
-}
-h3 {
-    font-size: 1.15rem;
-}
-p {
-    color: var(--text-muted);
-    line-height: 1.6;
+/* =========================================================
+   LAYOUT
+   ========================================================= */
+
+.container{
+  max-width: 1100px;
+  margin: 3rem auto;
+  background: var(--bg-card);
+  border-radius: 14px;
+  padding: 2.5rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
 }
 
-.btn {
-    background: var(--accent) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 8px !important;
-    padding: 0.65rem 1.4rem !important;
-    font-size: 0.95rem !important;
-    cursor: pointer !important;
-    transition: all 0.2s ease !important;
-}
-.btn:hover {
-    background: var(--accent-hover);
-    transform: scale(1.07) translateY(-2px);
-    box-shadow: 0 4px 18px rgba(124,140,255,0.18);
-}
-.btn-secondary {
-    background: transparent;
-    border: 1px solid var(--bg-soft);
-    color: var(--text-main);
-}
-.btn-secondary:hover {
-    background: var(--bg-soft);
+h1, h2, h3{
+  color: var(--accent);
+  font-weight: 600;
+  margin: 0 0 1.2rem 0;
 }
 
-input, textarea, select {
-    width: 100%;
-    background: var(--bg-soft);
-    border: 1px solid transparent;
-    border-radius: 8px;
-    padding: 0.6rem;
-    color: var(--text-main);
-    font-size: 0.95rem;
-}
-input:focus, textarea:focus, select:focus {
-    outline: none;
-    border-color: var(--accent);
+p, ul, li{ color: var(--text-main); }
+
+/* =========================================================
+   FORMS
+   ========================================================= */
+
+input, textarea, select{
+  width: 100%;
+  background: var(--bg-soft);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 0.65rem 0.8rem;
+  color: var(--text-main);
+  font-size: 0.95rem;
 }
 
-.producten {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1.8rem;
-}
-.product {
-    background: var(--bg-soft);
-    border-radius: 12px;
-    padding: 1.4rem;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-.product:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 24px rgba(0,0,0,0.35);
-}
-.product h3 {
-    margin: 0;
-}
-.product .categorie,
-.product .beschrijving {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-.product .voorraad {
-    font-size: 0.85rem;
-    margin-top: 0.6rem;
-}
-.voorraad.high { color: var(--success); }
-.voorraad.low { color: var(--danger); }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-}
-th {
-    text-align: left;
-    font-weight: 500;
-    color: var(--text-muted);
-    padding-bottom: 0.6rem;
-}
-td {
-    padding: 0.8rem 0;
-    border-bottom: 1px solid #2a2e3b;
+input:focus, textarea:focus, select:focus{
+  outline: none;
+  border-color: var(--accent);
 }
 
-#melding {
-    background: rgba(34,197,94,0.15);
-    color: var(--success);
-    padding: 0.9rem;
-    border-radius: 10px;
-    margin-bottom: 1.5rem;
-}
-/* Globale minimalistische stijl geïnspireerd op Amazon */
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    background: #181a1b;
-    margin: 0;
-    padding: 0;
-    color: #f3f3f3;
-}
-.container {
-    max-width: 1100px;
-    margin: 2.5rem auto;
-    background: #23272b;
-    border-radius: 12px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.18);
-}
-:root {
-    padding: 2.5rem 2rem 2rem 2rem;
-}
-h1, h2, h3 {
-    color: #ffd814;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
-.btn {
-    background: #ffd814;
-    color: #232f3e;
-    border: none;
-    border-radius: 6px;
-    padding: 0.7rem 1.5rem;
-    font-size: 1.05rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px rgba(34,47,62,0.13);
-    margin-right: 0.5rem;
-}
-.btn:hover {
-        background: var(--accent-hover);
-        transform: scale(1.07) translateY(-2px);
-        box-shadow: 0 4px 18px rgba(124,140,255,0.18);
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+
+.btn, .btn-remove{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 0.7rem 1.2rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease, box-shadow .15s ease;
+  box-shadow: 0 2px 10px rgba(124,140,255,0.12);
+  text-decoration: none;
+  white-space: nowrap;
 }
 
-:root {
-    border-radius: 5px;
-    padding: 0.5rem;
-    font-size: 1rem;
-    margin-bottom: 0.7rem;
-    background: #23272b;
-    color: #f3f3f3;
+.btn:hover{
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px rgba(124,140,255,0.18);
 }
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 1rem;
-    background: #23272b;
+
+.btn-remove{
+  background: var(--danger);
+  box-shadow: 0 2px 10px rgba(239,68,68,0.12);
 }
-th, td {
-    padding: 0.8rem;
-    border-bottom: 1px solid #333;
-    text-align: left;
+
+.btn-remove:hover{
+  background: #b71c1c;
+  transform: translateY(-2px);
 }
-th {
-    background: #232f3e;
-    color: #ffd814;
+
+.btn-secondary{
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--text-main);
+  box-shadow: none;
 }
-.producten {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    justify-content: center;
+
+.btn-secondary:hover{
+  background: rgba(255,255,255,0.06);
 }
-.product {
-    background: #23272b;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(34,47,62,0.18);
-    padding: 1.2rem 1rem;
-    width: 250px;
-    display: flex;
+
+/* =========================================================
+   NOTICES
+   ========================================================= */
+
+#melding{
+  background: rgba(34,197,94,0.15);
+  color: var(--success);
+  padding: 0.9rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 2px 8px rgba(39,174,96,0.10);
+}
+
+/* =========================================================
+   LOGIN PAGE
+   ========================================================= */
+
+.centered-page{
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.login-container{
+  background: var(--bg-card);
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  padding: 2.5rem;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+.login-container h2{ margin-bottom: 1.5rem; }
+
+.login-container .form-group{
+  margin-bottom: 1.1rem;
+  text-align: left;
+}
+
+.login-container .form-group label{
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.login-container .btn{
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+/* =========================================================
+   TABLES
+   ========================================================= */
+
+table{
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  background: var(--bg-card);
+}
+
+th, td{
+  padding: 0.8rem;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+
+th{
+  background: var(--bg-soft);
+  color: var(--accent);
+}
+
+/* =========================================================
+   CATALOG PAGE
+   ========================================================= */
+
+/* Make only the catalog container wider (set body class="page-catalog") */
+.page-catalog .container{
+  max-width: none;
+  width: min(1500px, calc(100% - 2rem));
+}
+
+/* Toolbar */
+.catalog-toolbar{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.catalog-filters{
+  display: flex;
+  flex-wrap: wrap;
+  gap: .7rem;
+  align-items: center;
+  margin: 0;
+}
+
+.catalog-filters input{
+  width: 220px;
+  max-width: 100%;
+}
+
+.catalog-filters select{
+  width: 180px;
+  height: 2.55rem;
+}
+
+.logout-form{ margin: 0; }
+
+/* Grid: works well for many AND few items */
+.producten{
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 320px));
+  justify-content: start; /* prevents huge gaps when few items */
+}
+
+/* No results */
+.no-results{
+  grid-column: 1 / -1;
+  text-align: center;
+  color: var(--danger);
+  font-size: 1.05rem;
+  padding: 1.2rem;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.22);
+  border-radius: 14px;
+}
+
+/* Product card: fixed size tiles for consistency */
+.product-card{
+  width: 100%;
+  max-width: 320px;
+  height: 320px;
+
+  background: var(--bg-soft);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 1rem;
+
+  display: flex;
+  flex-direction: column;
+
+  box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+.product-card:hover{
+  transform: translateY(-3px);
+  box-shadow: 0 18px 38px rgba(0,0,0,0.35);
+  border-color: rgba(124,140,255,0.35);
+}
+
+.product-card h3{
+  margin: 0 0 .6rem 0;
+  color: var(--accent);
+  font-size: 1.1rem;
+}
+
+.product-card .categorie,
+.product-card .beschrijving{
+  color: var(--text-muted);
+  font-size: .95rem;
+  margin-bottom: .35rem;
+}
+
+/* Clamp description */
+.product-card .beschrijving span{
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.product-card .voorraad{
+  margin-top: auto;
+  color: var(--success);
+  font-weight: 700;
+  padding-top: .25rem;
+}
+
+/* Actions inside card (no overflow) */
+.card-actions{
+  display: flex;
+  gap: .6rem;
+  margin-top: .9rem;
+  flex-wrap: wrap;
+}
+
+.card-actions > form,
+.card-actions > a{
+  flex: 1 1 140px;
+  min-width: 0;
+}
+
+.card-actions .btn{
+  width: 100%;
+  padding: .65rem .85rem;
+}
+
+/* Mobile tweaks */
+@media (max-width: 520px){
+  .product-card{
+    height: 300px;
+  }
+  .card-actions{
     flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    transition: box-shadow 0.2s, transform 0.2s;
-}
-.product:hover {
-    box-shadow: 0 6px 24px rgba(255,216,20,0.13);
-    transform: translateY(-2px) scale(1.01);
-}
-.product h3 {
-    margin: 0.5rem 0 0.2rem 0;
-    font-size: 1.15rem;
-    color: #ffd814;
-}
-.product .categorie {
-    color: #b3b3b3;
-    font-size: 0.97em;
-    margin-bottom: 0.3rem;
-}
-.product .voorraad {
-    color: #7fff7f;
-    font-size: 0.97em;
-    margin-bottom: 0.3rem;
-}
-.product .beschrijving {
-    color: #e0e0e0;
-    font-size: 0.98em;
-    margin-bottom: 0.3rem;
-}
-#melding {
-    background: #007600;
-    color: #fff;
-    padding: 0.8rem 1.2rem;
-    border-radius: 7px;
-    margin-bottom: 1.2rem;
-    text-align: center;
-    font-weight: 500;
-    font-size: 1.08rem;
-    box-shadow: 0 2px 8px rgba(39,174,96,0.10);
+  }
 }
