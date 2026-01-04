@@ -1,7 +1,7 @@
 # eindproject – Materiaal Reservatie Platform
 
 ## Beschrijving
-Webapplicatie voor een kunstopleiding waar studenten materiaal kunnen reserveren.
+Webapplicatie voor een kunstopleiding waar studenten materiaal kunnen reserveren, leningen beheren en hun eigen profiel kunnen bijhouden.
 
 ## Technologieën
 - Java 17
@@ -10,12 +10,22 @@ Webapplicatie voor een kunstopleiding waar studenten materiaal kunnen reserveren
 - Spring Data JPA
 - H2 Database
 - Thymeleaf
+- Bucket4j (rate limiting)
 
 ## Functionaliteiten
-- Productcatalogus met filters
+- Productcatalogus met filters en moderne dark mode UI
 - Winkelmandje
 - Checkout (bevestiging)
 - Registratie en login met security
+- Leningen-overzicht per gebruiker (met verwijderen en automatische voorraad-aanpassing)
+- Rate limiter: max. 20 requests/minuut per gebruiker (IP)
+
+## Security
+- BCrypt password hashing
+- CustomUserDetailsService voor authenticatie
+- Alleen admin (rol `ADMIN`) kan naar `/h2-console` en beheerderspagina's
+- CSRF alleen uitgeschakeld voor `/h2-console`, elders actief
+- Rate limiting op alle endpoints
 
 ## Admin account
 - **Gebruikersnaam:** admin
@@ -25,17 +35,25 @@ Webapplicatie voor een kunstopleiding waar studenten materiaal kunnen reserveren
 - De admin heeft de rol `ADMIN`, gewone gebruikers krijgen de rol `USER`.
 
 ### Implementatie
-- De roltoekenning gebeurt in `CustomUserDetailsService.java`. Hier wordt gecontroleerd of de gebruikersnaam "admin" en het wachtwoord "Admin123" is, en dan wordt de rol `ADMIN` toegekend.
-- In `SecurityConfig.java` zijn restricties ingesteld zodat alleen de admin toegang heeft tot admin-only routes.
+- Rollen worden toegekend in `CustomUserDetailsService.java`.
+- Security restricties in `SecurityConfig.java`.
+- Rate limiting via `RateLimitConfig.java` (Bucket4j).
+- Leningenbeheer: bij verwijderen van een lening wordt de voorraad automatisch verhoogd.
 
 ### Testen
 - Log in met bovenstaande gegevens om als admin te testen.
 - Je kunt nu admin-functies en de H2-console gebruiken.
 
+## Snelstart
+1. Clone deze repo
+2. `./mvnw spring-boot:run`
+3. Open [http://localhost:8080](http://localhost:8080)
+
 ## Referenties
 - Spring Boot documentation
 - Baeldung tutorials
-- GitHub Copilot 
+- Bucket4j docs
+- GitHub Copilot
 
 
 

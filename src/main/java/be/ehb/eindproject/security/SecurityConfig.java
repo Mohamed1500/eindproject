@@ -39,7 +39,6 @@
         @Bean
 public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http
-        .csrf(csrf -> csrf.disable()) // nodig voor H2-console
         .headers(headers -> headers.frameOptions(frame -> frame.disable())) // H2-console frame
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(
@@ -61,6 +60,11 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             .accessDeniedPage("/access-denied")
         )
         .authenticationProvider(authenticationProvider());
+
+    // Alleen CSRF uitschakelen voor H2-console
+    http.csrf(csrf -> csrf
+        .ignoringRequestMatchers("/h2-console/**")
+    );
 
     return http.build();
 }
