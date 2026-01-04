@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mijn Leningen</title>
+    <link rel="stylesheet" th:href="@{/style.css}" href="/style.css" />
+</head>
+<body>
+<div class="container">
+    <h2>Mijn Leningen</h2>
+    <div th:if="${leningen.size()} == 0">Je hebt nog geen leningen.</div>
+    <div th:if="${leningen.size()} > 0">
+        <p><b>Totaal aantal leningen:</b> <span th:text="${leningAantal}"></span></p>
+        <table>
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Aantal</th>
+      <th>Afhaaldatum</th>
+      <th>Opmerkingen</th>
+      <th>Actie</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr th:each="lening : ${leningen}">
+      <td th:text="${lening.productNaam}"></td>
+      <td th:text="${lening.aantal}"></td>
+      <td th:text="${lening.afhaaldatum}"></td>
+      <td th:text="${lening.opmerkingen}"></td>
+      <td>
+        <form th:action="@{/leningen/verwijderen}" method="post" style="display:inline;">
+          <input type="hidden" name="leningId" th:value="${lening.id}" />
+          <button type="submit" class="btn-remove">Verwijderen</button>
+        </form>
+      </td>
+    </tr>
+  </tbody>
+</table>
+    </div>
+    <a th:href="@{/catalogus}" class="btn" style="margin-top:1.5rem;">Terug naar catalogus</a>
+</div>
+</body>
+</html>
