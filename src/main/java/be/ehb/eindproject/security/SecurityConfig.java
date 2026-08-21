@@ -45,6 +45,7 @@ public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
                 "/", "/register", "/login", "/style.css", "/static/**", "/css/**", "/js/**", "/images/**"
             ).permitAll()
             .requestMatchers("/h2-console/**").hasRole("ADMIN")
+            .requestMatchers("/admin").hasRole("ADMIN")
             .anyRequest().authenticated()
         )
         .formLogin(form -> form

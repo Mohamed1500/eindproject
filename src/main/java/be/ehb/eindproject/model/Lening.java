@@ -7,17 +7,19 @@ public class Lening {
     private String productNaam;
     private int aantal;
     private String afhaaldatum;
+    private String einddatum;
     private String opmerkingen;
 
     public Lening() {}
 
-    public Lening(Long id, Long userId, Long productId, String productNaam, int aantal, String afhaaldatum, String opmerkingen) {
+    public Lening(Long id, Long userId, Long productId, String productNaam, int aantal, String afhaaldatum, String einddatum, String opmerkingen) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
         this.productNaam = productNaam;
         this.aantal = aantal;
         this.afhaaldatum = afhaaldatum;
+        this.einddatum = einddatum;
         this.opmerkingen = opmerkingen;
     }
 
@@ -33,6 +35,8 @@ public class Lening {
     public void setAantal(int aantal) { this.aantal = aantal; }
     public String getAfhaaldatum() { return afhaaldatum; }
     public void setAfhaaldatum(String afhaaldatum) { this.afhaaldatum = afhaaldatum; }
+    public String getEinddatum() { return einddatum; }
+    public void setEinddatum(String einddatum) { this.einddatum = einddatum; }
     public String getOpmerkingen() { return opmerkingen; }
     public void setOpmerkingen(String opmerkingen) { this.opmerkingen = opmerkingen; }
 }

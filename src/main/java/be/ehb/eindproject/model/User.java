@@ -18,6 +18,9 @@ public class User {
 	@Column(unique = true, nullable = false)
 	private String email;
 
+	@Column
+	private String role = "USER";
+
 	public User() {}
 
 	public User(String username, String password, String email) {
@@ -33,4 +36,6 @@ public class User {
 	public void setPassword(String password) { this.password = password; }
 	public String getEmail() { return email; }
 	public void setEmail(String email) { this.email = email; }
+	public String getRole() { return role == null ? "USER" : role; }
+	public void setRole(String role) { this.role = role; }
 }

@@ -42,9 +42,11 @@ public class CheckoutController {
     @PostMapping("/checkout/bevestigen")
         public String bevestigCheckout(
             @RequestParam("afhaaldatum") String afhaaldatum,
+            @RequestParam("einddatum") String einddatum,
             @RequestParam(value = "opmerkingen", required = false) String opmerkingen,
             HttpSession session, Model model, java.security.Principal principal) {
         java.time.LocalDate gekozenDatum = java.time.LocalDate.parse(afhaaldatum);
+        java.time.LocalDate eindDatum = java.time.LocalDate.parse(einddatum);
         java.time.LocalDate vandaag = java.time.LocalDate.now();
         if (gekozenDatum.isBefore(vandaag)) {
             List<WinkelmandItem> winkelmand = (List<WinkelmandItem>) session.getAttribute("winkelmand");
@@ -55,9 +57,34 @@ public class CheckoutController {
             model.addAttribute("error", "De gekozen afhaaldatum is al gepasseerd. Kies een geldige datum.");
             return "checkout";
         }
+        if (eindDatum.isBefore(gekozenDatum)) {
+            List<WinkelmandItem> winkelmand = (List<WinkelmandItem>) session.getAttribute("winkelmand");
+            if (winkelmand == null) {
+                winkelmand = new ArrayList<>();
+            }
+            model.addAttribute("winkelmand", winkelmand);
+            model.addAttribute("error", "De einddatum mag niet vóór de afhaaldatum liggen.");
+            return "checkout";
+        }
 
-        // Verlaag voorraad en voeg leningen toe bij geslaagde checkout
         List<WinkelmandItem> winkelmand = (List<WinkelmandItem>) session.getAttribute("winkelmand");
+
+        if (winkelmand == null || winkelmand.isEmpty()) {
+            model.addAttribute("winkelmand", new ArrayList<>());
+            model.addAttribute("error", "Je winkelmandje is leeg.");
+            return "checkout";
+        }
+
+        for (WinkelmandItem item : winkelmand) {
+            Product product = productRepository.findById(item.getProductId());
+            if (product == null || product.getVoorraad() < item.getAantal()) {
+                model.addAttribute("winkelmand", winkelmand);
+                model.addAttribute("error", "Er zijn niet genoeg " + item.getNaam() + " meer beschikbaar. Controleer je winkelmandje en probeer opnieuw.");
+                return "checkout";
+            }
+        }
+
+        // Verlaag voorraad en voeg leningen toe nadat de volledige bestelling is gecontroleerd.
         if (winkelmand != null && principal != null) {
             User user = userRepository.findByUsername(principal.getName()).orElse(null);
             for (WinkelmandItem item : winkelmand) {
@@ -65,7 +92,7 @@ public class CheckoutController {
                 if (p != null && p.getVoorraad() >= item.getAantal()) {
                     p.setVoorraad(p.getVoorraad() - item.getAantal());
                     if (user != null) {
-                        Lening lening = new Lening(null, user.getId(), p.getId(), p.getNaam(), item.getAantal(), afhaaldatum, opmerkingen);
+                        Lening lening = new Lening(null, user.getId(), p.getId(), p.getNaam(), item.getAantal(), afhaaldatum, einddatum, opmerkingen);
                         leningService.saveLening(lening);
                     }
                 }
@@ -74,6 +101,7 @@ public class CheckoutController {
         session.removeAttribute("winkelmand");
         model.addAttribute("bevestiging", "Je reservatie is succesvol ontvangen!");
         model.addAttribute("afhaaldatum", afhaaldatum);
+        model.addAttribute("einddatum", einddatum);
         model.addAttribute("opmerkingen", opmerkingen);
         return "bevestiging";
     }

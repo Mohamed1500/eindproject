@@ -7,7 +7,7 @@ Deze webapplicatie is ontwikkeld als proof of concept voor een kunstopleiding. S
 - **Backend:** Java (Spring Boot), met controllers voor catalogus, winkelmandje, registratie, login en checkout.
 - **Frontend:** Thymeleaf-templates met moderne, donkere styling (zie `style.css`).
 - **Dataopslag:** In-memory repository (`InMemoryProductRepository`) voor producten, H2 database voor gebruikers.
-- **Security:** Spring Security met BCrypt hashing voor wachtwoorden. Adminrol wordt toegekend op basis van gebruikersnaam en wachtwoord.
+- **Security:** Spring Security met BCrypt hashing voor wachtwoorden. De rol (`USER` of `ADMIN`) wordt per gebruiker opgeslagen.
 
 
 ## Belangrijkste Functionaliteiten
@@ -16,7 +16,8 @@ Deze webapplicatie is ontwikkeld als proof of concept voor een kunstopleiding. S
 - **Checkout:** Bevestigingspagina met keuze van afhaaldatum en optionele opmerkingen.
 - **Registratie & Login:** Veilige registratie en login met wachtwoordhashing. Unieke gebruikersnaam en e-mail verplicht.
 - **Leningen:** Gebruikers kunnen hun eigen leningen bekijken en verwijderen. Bij verwijderen van een lening wordt de voorraad van het product automatisch verhoogd.
-- **Rate Limiting:** Er geldt een limiet van 20 requests per minuut per gebruiker (IP) via Bucket4j. Bij overschrijding krijgt de gebruiker een HTTP 429 Too Many Requests.
+- **Admin dashboard:** Gebruikers met de rol `ADMIN` kunnen via `/admin` gebruikers, voorraad en alle reservaties bekijken.
+- **Rate Limiting:** Er geldt een limiet van 60 requests per minuut per gebruiker (IP) via Bucket4j. Statische bestanden zoals CSS en afbeeldingen tellen niet mee. Bij overschrijding krijgt de gebruiker een HTTP 429 Too Many Requests.
 - **Beveiliging:** Alleen geregistreerde gebruikers kunnen reserveren. Admin heeft extra rechten. CSRF is alleen uitgeschakeld voor de H2-console.
 
 ## Belangrijkste Klassen en Bestanden
@@ -31,10 +32,11 @@ Deze webapplicatie is ontwikkeld als proof of concept voor een kunstopleiding. S
 
 ## Security & Designkeuzes
 - **Wachtwoorden:** Worden gehasht met BCrypt.
-- **Adminrol:** Wordt toegekend als gebruikersnaam "admin" en wachtwoord "Admin123" overeenkomen.
+- **Adminrol:** Wordt opgeslagen in de kolom `role` van `app_user`. Nieuwe gebruikers krijgen automatisch de rol `USER`.
 - **Toegangscontrole:** Alleen ingelogde gebruikers kunnen producten reserveren. Admin-only routes zijn afgeschermd.
+- **Adminrechten:** Alleen gebruikers met de opgeslagen rol `ADMIN` krijgen toegang tot het admin dashboard en de H2-console.
 - **CSRF:** Alleen uitgeschakeld voor `/h2-console`, elders actief.
-- **Rate limiting:** Bucket4j rate limiter op alle endpoints (20 requests/minuut/IP).
+- **Rate limiting:** Bucket4j rate limiter op applicatie-endpoints (60 requests/minuut/IP); statische bestanden worden uitgesloten.
 - **Sessie:** Winkelmandje wordt per gebruiker in de sessie bijgehouden.
 - **Validatie:** Unieke gebruikersnaam en e-mail bij registratie. Foutmeldingen worden getoond bij mislukte login/registratie.
 

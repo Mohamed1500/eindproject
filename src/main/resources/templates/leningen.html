@@ -16,6 +16,7 @@
       <th>Product</th>
       <th>Aantal</th>
       <th>Afhaaldatum</th>
+      <th>Terugbrengdatum</th>
       <th>Opmerkingen</th>
       <th>Actie</th>
     </tr>
@@ -26,9 +27,11 @@
       <td th:text="${lening.productNaam}"></td>
       <td th:text="${lening.aantal}"></td>
       <td th:text="${lening.afhaaldatum}"></td>
+      <td th:text="${lening.einddatum}"></td>
       <td th:text="${lening.opmerkingen}"></td>
       <td>
         <form th:action="@{/leningen/verwijderen}" method="post" style="display:inline;">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
           <input type="hidden" name="leningId" th:value="${lening.id}" />
           <button type="submit" class="btn-remove">Verwijderen</button>
         </form>

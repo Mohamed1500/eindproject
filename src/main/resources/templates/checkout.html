@@ -6,7 +6,7 @@
 </head>
 <body>
     <div class="container">
-        <div th:if="${error}" id="melding" style="margin-bottom:1rem;">[[${error}]]</div>
+        <div th:if="${error}" id="melding" style="color:#e74c3c; font-weight:bold; margin-bottom:1rem;" th:text="${error}"></div>
         <h2>Bevestig je reservatie</h2>
         <table th:if="${winkelmand.size()} > 0">
         <thead>
@@ -23,11 +23,15 @@
         </tbody>
     </table>
     <div th:if="${winkelmand.size()} == 0">Je winkelmandje is leeg.</div>
-    <div th:if="${error}" style="color:#e74c3c; font-weight:bold; margin-bottom:1rem;">[[${error}]]</div>
     <form th:action="@{/checkout/bevestigen}" method="post" th:if="${winkelmand.size()} > 0" style="margin-top:2rem;">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <div style="margin-bottom:1.2rem;">
             <label for="afhaaldatum" style="font-weight:500; color:#2c3e50;">Afhaaldatum:</label><br>
             <input type="date" id="afhaaldatum" name="afhaaldatum" required style="padding:0.5rem; border-radius:5px; border:1px solid #ccc; margin-top:0.3rem; width: 60%;" />
+        </div>
+        <div style="margin-bottom:1.2rem;">
+            <label for="einddatum" style="font-weight:500; color:#2c3e50;">Terugbrengdatum:</label><br>
+            <input type="date" id="einddatum" name="einddatum" required style="padding:0.5rem; border-radius:5px; border:1px solid #ccc; margin-top:0.3rem; width: 60%;" />
         </div>
         <div style="margin-bottom:1.2rem;">
             <label for="opmerkingen" style="font-weight:500; color:#2c3e50;">Opmerkingen:</label><br>

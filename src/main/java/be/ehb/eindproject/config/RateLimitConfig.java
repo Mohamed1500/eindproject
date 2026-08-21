@@ -22,7 +22,7 @@ public class RateLimitConfig implements WebMvcConfigurer {
 
     private Bucket resolveBucket(String ip) {
         return buckets.computeIfAbsent(ip, k -> Bucket4j.builder()
-                .addLimit(Bandwidth.classic(20, Refill.greedy(20, Duration.ofMinutes(1))))
+                .addLimit(Bandwidth.classic(60, Refill.greedy(60, Duration.ofMinutes(1))))
                 .build());
     }
 
@@ -47,6 +47,14 @@ public class RateLimitConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(rateLimitInterceptor())
-                .addPathPatterns("/**");
+            .addPathPatterns("/**")
+            .excludePathPatterns(
+                "/style.css",
+                "/static/**",
+                "/css/**",
+                "/js/**",
+                "/images/**",
+                "/favicon.ico"
+            );
     }
 }

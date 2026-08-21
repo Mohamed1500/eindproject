@@ -11,6 +11,9 @@
     <div th:if="${afhaaldatum != null}" style="font-size:1.15rem; margin-bottom:0.7rem;">
         <b>Afhaaldatum:</b> <span th:text="${afhaaldatum}"></span>
     </div>
+    <div th:if="${einddatum != null}" style="font-size:1.15rem; margin-bottom:0.7rem;">
+        <b>Terugbrengdatum:</b> <span th:text="${einddatum}"></span>
+    </div>
     <div th:if="${opmerkingen != null && !#strings.isEmpty(opmerkingen)}" style="margin-top:0.7rem; font-size:1.1rem;">
         <b>Opmerkingen:</b> <span th:text="${opmerkingen}"></span>
     </div>

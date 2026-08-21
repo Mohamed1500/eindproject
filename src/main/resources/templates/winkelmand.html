@@ -21,10 +21,12 @@
                 <td th:text="${item.aantal}"></td>
                 <td>
                     <form th:action="@{/winkelmand/verwijderen}" method="post" style="display:inline;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <input type="hidden" name="productId" th:value="${item.productId}" />
                         <button type="submit" class="btn-remove">Verwijderen</button>
                     </form>
                     <form th:action="@{/winkelmand/verwijderAlles}" method="post" style="display:inline; margin-left:0.3rem;">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                         <input type="hidden" name="productId" th:value="${item.productId}" />
                         <button type="submit" class="btn-remove" style="background:#b71c1c;">Verwijder alles</button>
                     </form>

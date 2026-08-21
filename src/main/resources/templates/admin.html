@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin dashboard</title>
+    <link rel="stylesheet" th:href="@{/style.css}" href="/style.css" />
+</head>
+<body>
+<div class="container">
+    <h2>Admin dashboard</h2>
+    <p>Overzicht van gebruikers, voorraad en reservaties.</p>
+
+    <h3>Gebruikers</h3>
+    <table>
+        <thead><tr><th>Gebruikersnaam</th><th>E-mail</th><th>Rol</th></tr></thead>
+        <tbody>
+        <tr th:each="user : ${users}">
+            <td th:text="${user.username}"></td>
+            <td th:text="${user.email}"></td>
+            <td th:text="${user.role}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Productvoorraad</h3>
+    <table>
+        <thead><tr><th>Product</th><th>Categorie</th><th>Beschikbaar</th></tr></thead>
+        <tbody>
+        <tr th:each="product : ${producten}">
+            <td th:text="${product.naam}"></td>
+            <td th:text="${product.categorie}"></td>
+            <td th:text="${product.voorraad}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3>Reservaties</h3>
+    <table>
+        <thead><tr><th>Gebruiker-ID</th><th>Product</th><th>Aantal</th><th>Periode</th></tr></thead>
+        <tbody>
+        <tr th:each="lening : ${leningen}">
+            <td th:text="${lening.userId}"></td>
+            <td th:text="${lening.productNaam}"></td>
+            <td th:text="${lening.aantal}"></td>
+            <td><span th:text="${lening.afhaaldatum}"></span> - <span th:text="${lening.einddatum}"></span></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a th:href="@{/catalogus}" class="btn">Terug naar catalogus</a>
+</div>
+</body>
+</html>

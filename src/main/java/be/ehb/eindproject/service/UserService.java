@@ -18,6 +18,10 @@ public class UserService {
         return userRepository.findByUsername(username).isPresent();
     }
 
+    public boolean emailExists(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
     public void registerNewUser(String username, String password, String email) {
         String encodedPassword = passwordEncoder.encode(password);
         User user = new User(username, encodedPassword, email);

@@ -8,23 +8,22 @@
 	<div class="container">
 		<h2>Registreren</h2>
 		<form th:action="@{/register}" method="post">
+			<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 			<div class="form-group">
 				<label for="username">Gebruikersnaam:</label>
-				<input type="text" id="username" name="username" required>
+				<input type="text" id="username" name="username" th:value="${username}" minlength="3" maxlength="30" required>
 			</div>
             <div class="form-group">
                 <label for="email">E-mailadres:</label>
-                <input type="email" id="email" name="email" required>
+				<input type="email" id="email" name="email" th:value="${email}" required>
             </div>
 			<div class="form-group">
 				<label for="password">Wachtwoord:</label>
-				<input type="password" id="password" name="password" required>
+				<input type="password" id="password" name="password" minlength="8" required>
 			</div>
             <button type="submit" class="btn">Registreren</button>
-        </form>
-        <div th:if="${error}" id="melding" style="color:#e74c3c; font-weight:bold; margin-top:1rem;">[[${error}]]</div>
+		</form>
+		<div th:if="${error}" id="melding" style="color:#e74c3c; font-weight:bold; margin-top:1rem;" th:text="${error}"></div>
     </div>
-</body>
-</html>
 </body>
 </html>

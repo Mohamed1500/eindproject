@@ -9,8 +9,8 @@
 
 <body class="page-catalog">
   <div class="container">
-    <div th:if="${session.melding}" id="melding">
-      <span th:text="${session.melding}"></span>
+    <div th:if="${melding}" id="melding" hidden>
+      <span th:text="${melding}"></span>
     </div>
 
     <h2>Catalogus</h2>
@@ -34,7 +34,10 @@
 
   <a th:href="@{/leningen}" class="btn">Mijn leningen</a>
 
+  <a th:if="${#authorization.expression('hasRole(''ADMIN'')')}" th:href="@{/admin}" class="btn">Admin dashboard</a>
+
       <form th:action="@{/logout}" method="post" class="logout-form">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
         <button type="submit" class="btn">Uitloggen</button>
       </form>
     </div>
@@ -53,6 +56,7 @@
 
         <div class="card-actions">
           <form th:action="@{/winkelmand/toevoegen}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <input type="hidden" name="productId" th:value="${product.id}" />
             <button type="submit" class="btn">In winkelmand</button>
           </form>
@@ -64,6 +68,14 @@
   </div>
 
   <script>
+  // Toon feedback als popup na toevoegen aan het winkelmandje.
+  window.addEventListener('DOMContentLoaded', function () {
+    const melding = document.getElementById('melding');
+    if (melding) {
+      alert(melding.textContent.trim());
+    }
+  });
+
   // Scrollpositie onthouden vóór submit
   document.querySelectorAll('form[action="/winkelmand/toevoegen"]').forEach(function (form) {
     form.addEventListener('submit', function () {

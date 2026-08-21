@@ -18,31 +18,36 @@ Webapplicatie voor een kunstopleiding waar studenten materiaal kunnen reserveren
 - Checkout (bevestiging)
 - Registratie en login met security
 - Leningen-overzicht per gebruiker (met verwijderen en automatische voorraad-aanpassing)
-- Rate limiter: max. 20 requests/minuut per gebruiker (IP)
+- Admin dashboard met gebruikers, productvoorraad en alle reservaties
+- Rate limiter: max. 60 requests/minuut per gebruiker (IP); statische bestanden tellen niet mee
 
 ## Security
 - BCrypt password hashing
 - CustomUserDetailsService voor authenticatie
-- Alleen admin (rol `ADMIN`) kan naar `/h2-console` en beheerderspagina's
+- Alleen gebruikers met rol `ADMIN` kunnen naar `/h2-console` en beheerderspagina's
 - CSRF alleen uitgeschakeld voor `/h2-console`, elders actief
-- Rate limiting op alle endpoints
+- Rate limiting op applicatie-endpoints; statische bestanden worden uitgesloten
 
 ## Admin account
-- **Gebruikersnaam:** admin
-- **Wachtwoord:** Admin123
-- De admin heeft toegang tot extra functies zoals het bekijken van de H2-console (`/h2-console`).
-- Alleen de admin kan via de URL naar beheerderspagina's.
-- De admin heeft de rol `ADMIN`, gewone gebruikers krijgen de rol `USER`.
+- Nieuwe gebruikers krijgen automatisch de rol `USER`.
+- Een beheerder krijgt de rol `ADMIN` via de kolom `role` in de tabel `app_user`.
+- Een bestaande gebruiker kan eenmalig beheerder worden gemaakt met:
+
+```sql
+UPDATE app_user SET role = 'ADMIN' WHERE username = 'admin';
+```
 
 ### Implementatie
-- Rollen worden toegekend in `CustomUserDetailsService.java`.
+- Rollen worden opgeslagen in `User.java` en gebruikt in `CustomUserDetailsService.java`.
+- Het admin dashboard staat in `AdminController.java` en `admin.html`.
 - Security restricties in `SecurityConfig.java`.
 - Rate limiting via `RateLimitConfig.java` (Bucket4j).
 - Leningenbeheer: bij verwijderen van een lening wordt de voorraad automatisch verhoogd.
 
 ### Testen
-- Log in met bovenstaande gegevens om als admin te testen.
-- Je kunt nu admin-functies en de H2-console gebruiken.
+- Maak een gebruiker aan via registratie.
+- Zet voor een beheertest de kolom `role` van die gebruiker op `ADMIN` via de H2-console.
+- Log opnieuw in en open `/admin` of `/h2-console`.
 
 ## Snelstart
 1. Clone deze repo
@@ -54,7 +59,3 @@ Webapplicatie voor een kunstopleiding waar studenten materiaal kunnen reserveren
 - Baeldung tutorials
 - Bucket4j docs
 - GitHub Copilot
-
-
-
-

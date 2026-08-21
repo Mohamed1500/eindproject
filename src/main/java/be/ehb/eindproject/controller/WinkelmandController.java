@@ -26,26 +26,25 @@ public class WinkelmandController {
         if (winkelmand == null) {
             winkelmand = new ArrayList<>();
         }
+        Product product = productRepository.findById(productId);
+        if (product == null) {
+            session.setAttribute("melding", "Dit product bestaat niet meer.");
+            return "redirect:/catalogus";
+        }
+
         boolean gevonden = false;
         for (WinkelmandItem item : winkelmand) {
             if (item.getProductId().equals(productId)) {
-                // Controleer voorraad
-                Product p = productRepository.findById(productId);
-                if (p != null && p.getVoorraad() > 0) {
-                    item.setAantal(item.getAantal() + 1);
-                }
+                item.setAantal(item.getAantal() + 1);
                 gevonden = true;
                 break;
             }
         }
         if (!gevonden) {
-            Product p = productRepository.findById(productId);
-            if (p != null && p.getVoorraad() > 0) {
-                winkelmand.add(new WinkelmandItem(p.getId(), p.getNaam(), 1));
-            }
+            winkelmand.add(new WinkelmandItem(product.getId(), product.getNaam(), 1));
         }
         session.setAttribute("winkelmand", winkelmand);
-        session.setAttribute("melding", "Product toegevoegd aan winkelmandje!");
+        session.setAttribute("melding", product.getNaam() + " is toegevoegd aan je winkelmandje.");
         return "redirect:/catalogus";
     }
 
